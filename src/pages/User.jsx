@@ -1,8 +1,15 @@
 import axios from "axios";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigation } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function User() {
   const { user, userTodos, userPosts } = useLoaderData();
+  const { state } = useNavigation();
+  const isLoading = state === "loading";
+
+  if (isLoading) {
+    return <LoadingSpinner size={60} />;
+  }
 
   const formatedAddress = () => {
     if (!user) return;
