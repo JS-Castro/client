@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter, useRouteError } from "react-router-dom";
 import { postListRoute } from "../pages/PostList";
 import { userListRoute } from "../pages/UserList";
 import { todoListRoute } from "../pages/TodoList";
@@ -10,6 +10,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       { index: true, element: <Navigate to="/posts" /> },
       {
@@ -36,3 +37,15 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
+function ErrorBoundary() {
+  let error = useRouteError();
+  console.error("error: " + error);
+
+  return (
+    <>
+      <div>{error.statusText}</div>
+      <div>{error.status}</div>
+    </>
+  );
+}

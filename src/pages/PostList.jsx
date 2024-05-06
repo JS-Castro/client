@@ -11,7 +11,7 @@ function PostList() {
     return <LoadingSpinner size={60} />;
   }
 
-  if (!posts || posts.length === 0) {
+  if (posts === null) {
     return <div>No posts found</div>;
   }
 
