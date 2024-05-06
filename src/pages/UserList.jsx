@@ -1,3 +1,50 @@
+import axios from "axios";
+import { Link, useLoaderData, useNavigation } from "react-router-dom";
+
 export function UserList() {
-  return <h1>User List</h1>;
+  const users = useLoaderData();
+  const { state } = useNavigation();
+
+  if (state === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!users) {
+    return <div>Error fetching Users</div>;
+  }
+
+  return (
+    <div className="container">
+      <h1 className="page-title">Users</h1>
+      <div className="card-grid">
+        {users.map((user) => (
+          <div className="card" key={user.id}>
+            <div className="card-header">{user.name}</div>
+            <div className="card-body">
+              <div>Username: {user.username}</div>
+              <div>Email: {user.email}</div>
+            </div>
+            <div className="card-footer">
+              <Link className="btn" to={`/users/${user.id}`}>
+                View
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+async function loader({ request: { signal } }) {
+  return axios
+    .get("http://127.0.0.1:3000/users", {
+      signal,
+    })
+    .then((res) => res.data);
+}
+
+export const userListRoute = {
+  element: <UserList />,
+  loader,
+};

@@ -1,8 +1,17 @@
 import axios from "axios";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigation } from "react-router-dom";
 
 function PostList() {
   const posts = useLoaderData();
+  const { state } = useNavigation();
+
+  if (state === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!posts || posts.length === 0) {
+    return <div>No posts found</div>;
+  }
 
   return (
     <div className="container">
