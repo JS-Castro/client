@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Link, useLoaderData, useNavigation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
+import { getPosts } from "../api/posts";
 
 function PostList() {
   const posts = useLoaderData();
@@ -26,7 +26,7 @@ function PostList() {
               <div className="card-preview-text">{post.body}</div>
             </div>
             <div className="card-footer">
-              <Link className="btn" to={`/posts/${post.id}`}>
+              <Link className="btn" to={post.id.toString()}>
                 View
               </Link>
             </div>
@@ -38,7 +38,7 @@ function PostList() {
 }
 
 async function loader({ request: { signal } }) {
-  return axios.get("http://127.0.0.1:3000/posts", { signal }).then((res) => res.data);
+  return getPosts({ signal });
 }
 
 export const postListRoute = {

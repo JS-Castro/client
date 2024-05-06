@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Link, useLoaderData } from "react-router-dom";
+import { getPost, getPostComments } from "../api/posts";
+import { getUser } from "../api/users";
 
 export function Post() {
   const { post, postAuthor, postComments } = useLoaderData();
@@ -8,7 +9,7 @@ export function Post() {
     <div className="container">
       <h1 className="page-title">{post.title}</h1>
       <span className="page-subtitle">
-        By: <Link to={`/users/${post.userId}`}>{postAuthor.name}</Link>
+        By: <Link to={`/users/${post.userId}`}>{postAuthor.username}</Link>
       </span>
       <div>{post.body}</div>
       <h3 className="mt-4 mb-2">Comments</h3>
@@ -28,13 +29,9 @@ export function Post() {
 
 export async function loader({ request: { signal }, params: { postId } }) {
   try {
-    const posts = await axios.get(`http://127.0.0.1:3000/posts/`, { signal }).then((res) => res.data);
-    const comments = await axios.get(`http://127.0.0.1:3000/comments/`, { signal }).then((res) => res.data);
-    const users = await axios.get(`http://127.0.0.1:3000/users/`, { signal }).then((res) => res.data);
-
-    const post = posts.find((post) => post.id == postId);
-    const postAuthor = users.find((user) => user.id === post.userId);
-    const postComments = comments.filter((comment) => comment.postId === post.id);
+    const post = await getPost(postId, { signal });
+    const postComments = await getPostComments(post.id, { signal });
+    const postAuthor = await getUser(post.userId);
 
     return { post, postAuthor, postComments };
   } catch (error) {

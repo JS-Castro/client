@@ -1,6 +1,8 @@
-import axios from "axios";
 import { Link, useLoaderData, useNavigation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
+import { getUsers } from "../api/users";
+import { getTodos } from "../api/todos";
+import { getPosts } from "../api/posts";
 
 export function User() {
   const { user, userTodos, userPosts } = useLoaderData();
@@ -60,9 +62,9 @@ export function User() {
 
 export async function loader({ request: { signal }, params: { userId } }) {
   try {
-    const users = await axios.get(`http://127.0.0.1:3000/users/`, { signal }).then((res) => res.data);
-    const todos = await axios.get(`http://127.0.0.1:3000/todos/`, { signal }).then((res) => res.data);
-    const posts = await axios.get(`http://127.0.0.1:3000/posts/`, { signal }).then((res) => res.data);
+    const users = await getUsers({ signal });
+    const todos = await getTodos({ signal });
+    const posts = await getPosts({ signal });
 
     const user = users.find((user) => user.id == userId);
     const userTodos = todos.filter((todo) => todo.userId === user.id);

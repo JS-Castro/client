@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
+import { getTodos } from "../api/todos";
 
 export function TodoList() {
   const todos = useLoaderData();
@@ -26,11 +26,7 @@ export function TodoList() {
 }
 
 async function loader({ request: { signal } }) {
-  return axios
-    .get("http://127.0.0.1:3000/todos", {
-      signal,
-    })
-    .then((res) => res.data);
+  return getTodos({ signal });
 }
 
 export const todoListRoute = {

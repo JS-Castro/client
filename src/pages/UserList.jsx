@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Link, useLoaderData, useNavigation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
+import { getUsers } from "../api/users";
 
 export function UserList() {
   const users = useLoaderData();
@@ -27,7 +27,7 @@ export function UserList() {
               <div>Email: {user.email}</div>
             </div>
             <div className="card-footer">
-              <Link className="btn" to={`/users/${user.id}`}>
+              <Link className="btn" to={user.id.toString()}>
                 View
               </Link>
             </div>
@@ -39,11 +39,7 @@ export function UserList() {
 }
 
 async function loader({ request: { signal } }) {
-  return axios
-    .get("http://127.0.0.1:3000/users", {
-      signal,
-    })
-    .then((res) => res.data);
+  return getUsers({ signal });
 }
 
 export const userListRoute = {
