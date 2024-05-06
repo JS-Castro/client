@@ -1,12 +1,14 @@
 import axios from "axios";
 import { Link, useLoaderData, useNavigation } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function UserList() {
   const users = useLoaderData();
   const { state } = useNavigation();
+  const isLoading = state === "loading";
 
-  if (state === "loading") {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <LoadingSpinner size={60} />;
   }
 
   if (!users) {

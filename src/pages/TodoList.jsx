@@ -1,8 +1,15 @@
 import axios from "axios";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 
 export function TodoList() {
   const todos = useLoaderData();
+  const { state } = useNavigation();
+  const isLoading = state === "loading";
+
+  if (isLoading) {
+    return <LoadingSpinner size={60} />;
+  }
 
   return (
     <div className="container">
