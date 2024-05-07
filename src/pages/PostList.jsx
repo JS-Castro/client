@@ -1,5 +1,6 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { getPosts } from "../api/posts";
+import PostCard from "../components/PostCard";
 
 function PostList() {
   const posts = useLoaderData();
@@ -9,17 +10,7 @@ function PostList() {
       <h1 className="page-title">Posts</h1>
       <div className="card-grid">
         {posts.map((post) => (
-          <div className="card" key={post.id}>
-            <div className="card-header">{post.title}</div>
-            <div className="card-body">
-              <div className="card-preview-text">{post.body}</div>
-            </div>
-            <div className="card-footer">
-              <Link className="btn" to={post.id.toString()}>
-                View
-              </Link>
-            </div>
-          </div>
+          <PostCard key={post.id} {...post} />
         ))}
       </div>
     </div>
@@ -28,7 +19,7 @@ function PostList() {
 
 async function loader({ request: { signal } }) {
   try {
-    return getPosts({ signal });
+    return await getPosts({ signal });
   } catch (error) {
     console.error("Error fetching data:", error);
 

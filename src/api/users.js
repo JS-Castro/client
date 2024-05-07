@@ -1,7 +1,7 @@
 import { baseApi } from "./base";
 
 export async function getUsers(options) {
-  return baseApi.get("userss", options).then((res) => res.data);
+  return baseApi.get("users", options).then((res) => res.data);
 }
 
 export async function getUser(userId, options) {

@@ -1,7 +1,9 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { getUser } from "../api/users";
 import { getTodosByUser } from "../api/todos";
 import { getPostsByUser } from "../api/posts";
+import PostCard from "../components/PostCard";
+import TodoItem from "../components/TodoItem";
 
 export function User() {
   const { user, userTodos, userPosts } = useLoaderData();
@@ -26,32 +28,20 @@ export function User() {
       <h3 className="mt-4 mb-2">Posts</h3>
       <div className="card-grid">
         {userPosts.map((post) => (
-          <div key={post.id} className="card">
-            <div className="card-header">{post.title}</div>
-            <div className="card-body">
-              <div className="card-preview-text">{post.body}</div>
-            </div>
-            <div className="card-footer">
-              <Link className="btn" to={`/posts/${post.id}`}>
-                View
-              </Link>
-            </div>
-          </div>
+          <PostCard key={post.id} {...post} />
         ))}
       </div>
       <h3 className="mt-4 mb-2">Todos</h3>
       <ul>
         {userTodos.map((todo) => (
-          <li key={todo.id} className={todo.completed ? "strike-through" : ""}>
-            {todo.title}
-          </li>
+          <TodoItem key={todo.id} {...todo} />
         ))}
       </ul>
     </div>
   );
 }
 
-export async function loader({ request: { signal }, params: { userId } }) {
+async function loader({ request: { signal }, params: { userId } }) {
   try {
     const user = await getUser(userId, { signal });
     const userTodos = await getTodosByUser(userId, { signal });
