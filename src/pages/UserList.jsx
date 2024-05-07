@@ -28,7 +28,13 @@ export function UserList() {
 }
 
 async function loader({ request: { signal } }) {
-  return getUsers({ signal });
+  try {
+    return await getUsers({ signal });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    return null;
+  }
 }
 
 export const userListRoute = {

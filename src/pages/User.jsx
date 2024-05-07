@@ -1,21 +1,12 @@
-import { Link, useLoaderData, useNavigation } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
-import { getUsers } from "../api/users";
-import { getTodos } from "../api/todos";
-import { getPosts } from "../api/posts";
+import { Link, useLoaderData } from "react-router-dom";
+import { getUser } from "../api/users";
+import { getTodosByUser } from "../api/todos";
+import { getPostsByUser } from "../api/posts";
 
 export function User() {
   const { user, userTodos, userPosts } = useLoaderData();
-  const { state } = useNavigation();
-  const isLoading = state === "loading";
-
-  if (isLoading) {
-    return <LoadingSpinner size={60} />;
-  }
 
   const formatedAddress = () => {
-    if (!user) return;
-
     return `${user.address.street} ${user.address.suite} ${user.address.city} ${user.address.zipcode}`;
   };
 
@@ -62,18 +53,15 @@ export function User() {
 
 export async function loader({ request: { signal }, params: { userId } }) {
   try {
-    const users = await getUsers({ signal });
-    const todos = await getTodos({ signal });
-    const posts = await getPosts({ signal });
-
-    const user = users.find((user) => user.id == userId);
-    const userTodos = todos.filter((todo) => todo.userId === user.id);
-    const userPosts = posts.filter((post) => post.userId === user.id);
+    const user = await getUser(userId, { signal });
+    const userTodos = await getTodosByUser(userId, { signal });
+    const userPosts = await getPostsByUser(userId, { signal });
 
     return { user, userTodos, userPosts };
   } catch (error) {
-    console.error("Error fetching user:", error);
-    return null;
+    console.error("Error fetching data:", error);
+
+    return { user: null, userTodos: null, userPosts: null };
   }
 }
 

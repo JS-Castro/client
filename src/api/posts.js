@@ -8,6 +8,10 @@ export async function getPost(postId, options) {
   return baseApi.get(`posts/${postId}`, options).then((res) => res.data);
 }
 
+export async function getPostsByUser(userId, options) {
+  return baseApi.get(`posts?userId=${userId}`, options).then((res) => res.data);
+}
+
 export async function getPostComments(postId, options) {
   return baseApi.get(`/posts/${postId}/comments`, options).then((res) => res.data);
 }

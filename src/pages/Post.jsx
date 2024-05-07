@@ -35,8 +35,8 @@ export async function loader({ request: { signal }, params: { postId } }) {
 
     return { post, postAuthor, postComments };
   } catch (error) {
-    console.error("Error fetching post:", error);
-    return null;
+    console.error("Error fetching data:", error);
+    return { post: null, postAuthor: null, postComments: null };
   }
 }
 

@@ -10,42 +10,55 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    errorElement: <ErrorBoundary />,
     children: [
       {
-        index: true,
-        element: <Navigate to="/posts" />,
-      },
-      {
-        path: "posts",
+        errorElement: <ErrorPage />,
         children: [
-          { index: true, ...postListRoute },
-          { path: ":postId", ...postRoute },
+          {
+            index: true,
+            element: <Navigate to="/posts" />,
+          },
+          {
+            path: "posts",
+            children: [
+              { index: true, ...postListRoute },
+              { path: ":postId", ...postRoute },
+            ],
+          },
+          {
+            path: "users",
+            children: [
+              { index: true, ...userListRoute },
+              { path: ":userId", ...userRoute },
+            ],
+          },
+          {
+            path: "todos",
+            ...todoListRoute,
+          },
+          {
+            path: "*",
+            element: <ErrorPage />,
+          },
         ],
-      },
-      {
-        path: "users",
-        children: [
-          { index: true, ...userListRoute },
-          { path: ":userId", ...userRoute },
-        ],
-      },
-      {
-        path: "todos",
-        ...todoListRoute,
       },
     ],
   },
 ]);
 
-function ErrorBoundary() {
-  let error = useRouteError();
-  console.error("error: " + error);
+function ErrorPage() {
+  const error = useRouteError();
+  console.log("error page from router" + error);
 
   return (
     <>
-      <div>{error.statusText}</div>
-      <div>{error.status}</div>
+      <h1>Error - something went wrong</h1>
+      {import.meta.env.MODE !== "production" && (
+        <>
+          <pre>{error.message}</pre>
+          <pre>{error.stack}</pre>
+        </>
+      )}
     </>
   );
 }

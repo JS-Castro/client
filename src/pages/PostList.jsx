@@ -27,7 +27,13 @@ function PostList() {
 }
 
 async function loader({ request: { signal } }) {
-  return getPosts({ signal });
+  try {
+    return getPosts({ signal });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    return null;
+  }
 }
 
 export const postListRoute = {

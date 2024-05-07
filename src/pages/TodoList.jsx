@@ -19,7 +19,13 @@ export function TodoList() {
 }
 
 async function loader({ request: { signal } }) {
-  return getTodos({ signal });
+  try {
+    return await getTodos({ signal });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    return null;
+  }
 }
 
 export const todoListRoute = {
