@@ -1,15 +1,8 @@
-import { useLoaderData, useNavigation } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import { useLoaderData } from "react-router-dom";
 import { getTodos } from "../api/todos";
 
 export function TodoList() {
   const todos = useLoaderData();
-  const { state } = useNavigation();
-  const isLoading = state === "loading";
-
-  if (isLoading) {
-    return <LoadingSpinner size={60} />;
-  }
 
   return (
     <div className="container">

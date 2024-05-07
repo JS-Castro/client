@@ -1,19 +1,8 @@
-import { Link, useLoaderData, useNavigation } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import { Link, useLoaderData } from "react-router-dom";
 import { getPosts } from "../api/posts";
 
 function PostList() {
   const posts = useLoaderData();
-  const { state } = useNavigation();
-  const isLoading = state === "loading";
-
-  if (isLoading) {
-    return <LoadingSpinner size={60} />;
-  }
-
-  if (posts === null) {
-    return <div>No posts found</div>;
-  }
 
   return (
     <div className="container">

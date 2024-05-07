@@ -1,19 +1,8 @@
-import { Link, useLoaderData, useNavigation } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import { Link, useLoaderData } from "react-router-dom";
 import { getUsers } from "../api/users";
 
 export function UserList() {
   const users = useLoaderData();
-  const { state } = useNavigation();
-  const isLoading = state === "loading";
-
-  if (isLoading) {
-    return <LoadingSpinner size={60} />;
-  }
-
-  if (!users) {
-    return <div>Error fetching Users</div>;
-  }
 
   return (
     <div className="container">
