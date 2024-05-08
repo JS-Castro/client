@@ -33,7 +33,7 @@ function PostList() {
             <label htmlFor="query">Query</label>
             <input type="search" name="query" id="query" ref={queryRef} />
           </FormGroup>
-          <div className="form-group">
+          <FormGroup>
             <label htmlFor="userId">Author</label>
             <select type="search" name="userId" id="userId" ref={userIdRef}>
               <option value="">Any</option>
@@ -43,7 +43,7 @@ function PostList() {
                 </option>
               ))}
             </select>
-          </div>
+          </FormGroup>
           <button className="btn">Filter</button>
         </div>
       </Form>
