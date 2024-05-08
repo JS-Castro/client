@@ -1,7 +1,7 @@
 import { redirect, useActionData, useLoaderData } from "react-router-dom";
 import { getUsers } from "../api/users";
 import PostForm, { postFormValidator } from "../components/PostForm";
-import { editPost, getPost } from "../api/posts";
+import { deletePost, editPost, getPost } from "../api/posts";
 
 export default function EditPost() {
   const { post, users } = useLoaderData();
@@ -10,7 +10,7 @@ export default function EditPost() {
   return (
     <div className="container">
       <h1 className="page-title">Edit Post</h1>
-      <PostForm users={users} post={post} errors={errors} isEditing />
+      <PostForm users={users} post={post} errors={errors} isEditing action={action} />
     </div>
   );
 }
@@ -27,14 +27,22 @@ async function action({ request, request: { signal }, params: { postId } }) {
   const userId = Number(formData.get("userId"));
   const title = formData.get("title");
   const body = formData.get("body");
+  const action = formData.get("action");
 
   const errors = postFormValidator({ userId, title, body });
 
   if (Object.keys(errors).length > 0) return errors;
 
-  await editPost(postId, { userId, title, body }, { signal });
-
-  return redirect(`/posts/${postId}`);
+  switch (action) {
+    case "edit":
+      await editPost(postId, { userId, title, body }, { signal });
+      return redirect(`/posts/${postId}`);
+    case "delete":
+      await deletePost(postId, { signal });
+      return redirect("/posts");
+    default:
+      throw new Error(`This ${action} doesn't exist.`);
+  }
 }
 
 export const editPostRoute = {

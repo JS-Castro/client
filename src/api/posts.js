@@ -19,3 +19,7 @@ export async function createPost(data, options) {
 export async function editPost(postId, data, options) {
   return baseApi.put(`posts/${postId}`, data, options).then((res) => res.data);
 }
+
+export async function deletePost(postId, options) {
+  return baseApi.delete(`posts/${postId}`, options).then((res) => res.data);
+}
