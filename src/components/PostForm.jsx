@@ -9,7 +9,7 @@ export default function PostForm({ users, post = {}, errors = {}, isEditing }) {
   const isSubmitting = state === "submitting" || state === "loading";
   const actionRef = useRef();
 
-  function changeAction(action) {
+  function handleAction(action) {
     actionRef.current.value = action;
   }
 
@@ -48,10 +48,10 @@ export default function PostForm({ users, post = {}, errors = {}, isEditing }) {
         <Link className="btn btn-outline" to="..">
           Cancel
         </Link>
-        <button onClick={() => changeAction("edit")} disabled={isSubmitting} className="btn">
+        <button onClick={() => handleAction("edit")} disabled={isSubmitting} className="btn">
           {isSubmitting ? "Saving" : "Save"}
         </button>
-        <button onClick={() => changeAction("delete")} disabled={isSubmitting} className="btn">
+        <button onClick={() => handleAction("delete")} disabled={isSubmitting} className="btn">
           {isSubmitting ? "Deleting" : "Delete"}
         </button>
       </div>
@@ -75,5 +75,4 @@ PostForm.propTypes = {
   post: PropTypes.object,
   isEditing: PropTypes.bool,
   errors: PropTypes.object,
-  action: PropTypes.func,
 };

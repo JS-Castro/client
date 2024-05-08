@@ -23,7 +23,7 @@ async function action({ request, request: { signal } }) {
   const formData = await request.formData();
   const title = formData.get("title");
   const body = formData.get("body");
-  const userId = formData.get("userId");
+  const userId = Number(formData.get("userId"));
 
   const errors = postFormValidator({ userId, title, body });
 

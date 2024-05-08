@@ -10,7 +10,7 @@ export default function EditPost() {
   return (
     <div className="container">
       <h1 className="page-title">Edit Post</h1>
-      <PostForm users={users} post={post} errors={errors} isEditing action={action} />
+      <PostForm users={users} post={post} errors={errors} isEditing />
     </div>
   );
 }
