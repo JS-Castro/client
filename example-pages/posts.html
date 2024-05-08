@@ -9,30 +9,44 @@
     <nav class="top-nav">
       <div class="nav-text-large">My App</div>
       <ul class="nav-list">
-        <li><a href="posts.html">Posts</a></li>
-        <li><a href="users.html">Users</a></li>
-        <li><a href="todos.html">Todos</a></li>
+        <li><a href="/posts">Posts</a></li>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/todos">Todos</a></li>
       </ul>
     </nav>
     <div class="container">
-      <h1 class="page-title">Posts</h1>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-header">
-            sunt aut facere repellat provident occaecati excepturi optio
-            reprehenderit
-          </div>
-          <div class="card-body">
-            <div class="card-preview-text">
-              quia et suscipit suscipit recusandae consequuntur expedita et cum
-              reprehenderit molestiae ut ut quas totam nostrum rerum est autem
-              sunt rem eveniet architecto
-            </div>
-          </div>
-          <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
-          </div>
+      <h1 class="page-title">
+        Posts
+        <div class="title-btns">
+          <a class="btn btn-outline" href="/posts/new">New</a>
         </div>
+      </h1>
+      <form method="get" action="/posts" class="form mb-4">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="query">Query</label
+            ><input type="search" name="query" id="query" />
+          </div>
+          <div class="form-group">
+            <label for="userId">Author</label
+            ><select type="search" name="userId" id="userId">
+              <option value="">Any</option>
+              <option value="1">Leanne Graham</option>
+              <option value="2">Ervin Howell</option>
+              <option value="3">Clementine Bauch</option>
+              <option value="4">Patricia Lebsack</option>
+              <option value="5">Chelsey Dietrich</option>
+              <option value="6">Mrs. Dennis Schulist</option>
+              <option value="7">Kurtis Weissnat</option>
+              <option value="8">Nicholas Runolfsdottir V</option>
+              <option value="9">Glenna Reichert</option>
+              <option value="10">Clementina DuBuque</option>
+            </select>
+          </div>
+          <button class="btn">Filter</button>
+        </div>
+      </form>
+      <div class="card-grid">
         <div class="card">
           <div class="card-header">qui est esse</div>
           <div class="card-body">
@@ -44,7 +58,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
+            <a class="btn" href="/posts/2">View</a>
           </div>
         </div>
         <div class="card">
@@ -59,7 +73,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
+            <a class="btn" href="/posts/3">View</a>
           </div>
         </div>
         <div class="card">
@@ -73,7 +87,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
+            <a class="btn" href="/posts/4">View</a>
           </div>
         </div>
         <div class="card">
@@ -86,7 +100,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
+            <a class="btn" href="/posts/5">View</a>
           </div>
         </div>
         <div class="card">
@@ -99,7 +113,20 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn" href="post.html">View</a>
+            <a class="btn" href="/posts/6">View</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">magnam facilis autem</div>
+          <div class="card-body">
+            <div class="card-preview-text">
+              dolore placeat quibusdam ea quo vitae magni quis enim qui quis quo
+              nemo aut saepe quidem repellat excepturi ut quia sunt ut sequi eos
+              ea sed quas
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn" href="/posts/7">View</a>
           </div>
         </div>
       </div>

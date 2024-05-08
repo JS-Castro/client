@@ -8,7 +8,14 @@ export function Post() {
 
   return (
     <div className="container">
-      <h1 className="page-title">{post.title}</h1>
+      <h1 className="page-title">
+        {post.title}
+        <div className="title-btns">
+          <Link className="btn btn-outline" to="edit">
+            Edit
+          </Link>
+        </div>
+      </h1>
       <span className="page-subtitle">
         By: <Link to={`/users/${post.userId}`}>{user.name}</Link>
       </span>
@@ -29,17 +36,11 @@ export function Post() {
 }
 
 async function loader({ request: { signal }, params: { postId } }) {
-  try {
-    const post = await getPost(postId, { signal });
-    const comments = getComments(postId, { signal });
-    const user = getUser(post.userId);
+  const post = await getPost(postId, { signal });
+  const comments = getComments(postId, { signal });
+  const user = getUser(post.userId);
 
-    return { post, user: await user, comments: await comments };
-  } catch (error) {
-    console.error("Error fetching data:", error);
-
-    return { post: null, postAuthor: null, postComments: null };
-  }
+  return { post, user: await user, comments: await comments };
 }
 
 export const postRoute = {
