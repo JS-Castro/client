@@ -1,24 +1,20 @@
 import PropTypes from "prop-types";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useNavigation } from "react-router-dom";
 import FormGroup from "./FormGroup";
 
-export default function PostForm({ users, post = {}, isEditing }) {
+export default function PostForm({ users, post = {}, errors = {}, isEditing }) {
   const user = users.find((user) => user.id === post.userId);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(e);
-  }
+  const { state } = useNavigation();
+  const isSubmitting = state === "submitting" || state === "loading";
 
   return (
-    <Form className="form" method="POST" onSubmit={handleSubmit}>
+    <Form className="form" method="POST">
       <div className="form-row">
-        <FormGroup className="error">
+        <FormGroup errorMessage={errors.title}>
           <label htmlFor="title">Title</label>
           <input type="text" name="title" id="title" defaultValue={post.title} />
-          <div className="error-message">Required</div>
         </FormGroup>
-        <FormGroup>
+        <FormGroup errorMessage={errors.userId}>
           <label htmlFor="userId">Author</label>
           {isEditing ? (
             <>
@@ -37,7 +33,7 @@ export default function PostForm({ users, post = {}, isEditing }) {
         </FormGroup>
       </div>
       <div className="form-row">
-        <FormGroup>
+        <FormGroup errorMessage={errors.body}>
           <label htmlFor="body">Body</label>
           <textarea name="body" id="body" defaultValue={post.body} />
         </FormGroup>
@@ -46,14 +42,27 @@ export default function PostForm({ users, post = {}, isEditing }) {
         <Link className="btn btn-outline" to="..">
           Cancel
         </Link>
-        <button className="btn">Save</button>
+        <button disabled={isSubmitting} className="btn">
+          {isSubmitting ? "Saving" : "Save"}
+        </button>
       </div>
     </Form>
   );
+}
+
+export function postFormValidator({ title, body, userId }) {
+  const errors = {};
+
+  if (title === "") errors.title = "Required";
+  if (body === "") errors.body = "Required";
+  if (userId === "") errors.userId = "Required";
+
+  return errors;
 }
 
 PostForm.propTypes = {
   users: PropTypes.array.isRequired,
   post: PropTypes.object,
   isEditing: PropTypes.bool,
+  errors: PropTypes.object,
 };

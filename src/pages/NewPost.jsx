@@ -1,15 +1,16 @@
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect, useActionData, useLoaderData } from "react-router-dom";
 import { getUsers } from "../api/users";
 import { createPost } from "../api/posts";
-import PostForm from "../components/PostForm";
+import PostForm, { postFormValidator } from "../components/PostForm";
 
 export default function NewPost() {
   const users = useLoaderData();
+  const errors = useActionData();
 
   return (
     <div className="container">
       <h1 className="page-title">New Post</h1>
-      <PostForm users={users} />
+      <PostForm users={users} errors={errors} />
     </div>
   );
 }
@@ -24,7 +25,11 @@ async function action({ request, request: { signal } }) {
   const body = formData.get("body");
   const userId = formData.get("userId");
 
-  const post = await createPost({ title, body, userId }, { signal });
+  const errors = postFormValidator({ userId, title, body });
+
+  if (Object.keys(errors).length > 0) return errors;
+
+  const post = await createPost({ userId, title, body }, { signal });
 
   return redirect(`/posts/${post.id}`);
 }
